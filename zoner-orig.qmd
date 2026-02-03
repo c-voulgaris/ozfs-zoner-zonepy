@@ -336,7 +336,7 @@ zr_summary_maybe(result_4_unit_tall) |>
   kable()
 ```
 
-The `zr_summary_false()` function returns the frequency with which each reason is for classifying a parcel as not allowable for the prototype buliding. This may be useful identifying which specific types of zoning regulations are most limiting the potential for developing a particular prototype building. In this example, about forty percent of the parcels in which our prototype four-plex is prohibited are in districts that do not allow four-plexes. An additional 22 percent are in disticts where all development requires discretionary review. In 21 percent of parcels where the prototype four-plex is not allowed, a four-plex might be permitted, but this particular four-plex is too tall.
+The `zr_summary_false()` function returns the frequency with which each reason is for classifying a parcel as not allowable for the prototype buliding. This may be useful identifying which specific types of zoning regulations are most limiting the potential for developing a particular prototype building. In this example, about forty percent of the parcels in which our prototype four-plex is prohibited are in districts that do not allow four-plexes. An additional 22 percent are in districts where all development requires discretionary review. In 21 percent of parcels where the prototype four-plex is not allowed, a four-plex might be permitted, but this particular four-plex is too tall.
 
 ```{r}
 
