@@ -15,13 +15,13 @@ execute:
   echo: false
   warning: false
 format:
-   docx:
-     reference-doc: custom-reference-doc.docx
-# html:
-#   self-contained: true
-#   theme: minty
-#   toc: true
-#   toc-location: left
+#    docx:
+#      reference-doc: custom-reference-doc.docx
+ html:
+   self-contained: true
+   theme: minty
+   toc: true
+   toc-location: left
 editor: visual
 ---
 
@@ -146,14 +146,21 @@ Similarly, if a building does not meet the requirements of its base district, an
 
 ```{r, results='hide', message=FALSE, echo=FALSE}
 
-parcel_cities <- here("data",
-                      "parcels") |>
-  dir() |>
-  str_sub(1, -15)
+study_cities <- c("Arlington",
+                  "Cockrell Hill",
+                  "Dallas",
+                  "Dalworthington Gardens",
+                  "Garland",
+                  "Grand Prairie",
+                  "Highland Park",
+                  "Irving",
+                  "Pantego",
+                  "Rowlett",
+                  "University Park")
 
 cities <- places(state = "TX",
                  progress_bar = FALSE)|>
-  filter(NAME %in% parcel_cities) |>
+  filter(NAME %in% study_cities) |>
   st_transform(6584) |>
   select(NAME) 
 
@@ -178,12 +185,14 @@ The analysis described below uses the R version of the package (zoneR).
 #| fig-cap: "Boundaries of municipalites included in illustrative example"
 #| fig-height: 6
 
+# add Farmer's Branch, Addison, Mesquite, Fort Worth, White Settlement, Westworth Village, Balch Springs,
+
+
 ggplot(cities) +
   geom_spatraster_rgb(data = base_map) +
   geom_sf(aes(fill = NAME),
           alpha = 0.4) +
-  scale_fill_brewer(palette = "Set3",
-                    name = "") +
+  scale_fill_discrete(name = "") +
   annotate(geom = "text",
                   x = cities_bbox["xmin"], y = cities_bbox["ymin"],
                   hjust = 0,
@@ -259,12 +268,13 @@ ggplot(cities) +
 
 ```
 
-If our project folder includes a buildings directory with the building information in a file called `4_unit_tall.bldg` and parcels and zoning directories that respectively contain the \*.parcel and and \*.zoning files for all the cities in our study area, we can use the `zr_run_zoning_checks()` function to identify all the parcels in our study area where the proposed building is (or might be) allowed. Checking this set of 69,500 parcels takes about three hours on a laptop computer with 16GB installed RAM and a 2.6GHz processor.
+If our project folder includes a buildings directory with the building information in a file called `4_unit_tall.bldg` and parcels and zoning directories that respectively contain the \*.parcel and and \*.zoning files for all the cities in our study area, we can use the `zr_run_zoning_checks()` function to identify all the parcels in our study area where the proposed building is (or might be) allowed. Checking this set of 69,500 parcels takes about four hours on a laptop computer with 16GB installed RAM and a 2.6GHz processor.
 
 The function returns of simple features dataset of parcel centroid points, and it can optionally write the result to a geojson file.
 
 ```{r, eval=FALSE}
 
+Sys.time()
 result_4_unit_tall <- zr_run_zoning_checks(
   bldg_file = here("data",
                    "buildings",
@@ -277,7 +287,7 @@ result_4_unit_tall <- zr_run_zoning_checks(
                  "results",
                  "4-unit-tall.geojson")
   )
-
+Sys.time()
 
 ```
 
